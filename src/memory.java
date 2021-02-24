@@ -30,6 +30,7 @@ public class memory {
     private Color[][] boardRandomizer(int x, int y) {
     	Color[][] temp = new Color[x][y];
     	ArrayList<Color> colors = new ArrayList<Color>();
+    	
     	for(int i = 0; i < ((x*y)/2); i++) {
     		colors.add(PUBLIC_COLORS[i]);
     		colors.add(PUBLIC_COLORS[i]);
@@ -40,7 +41,7 @@ public class memory {
     	int i = 0, j = 0;
     	for (final Color colo : colors) {
     	    temp[i][j] = colo;
-    	    if (++j == 4) {
+    	    if (++j == x) {
     	        j = 0;
     	        ++i;
     	    }

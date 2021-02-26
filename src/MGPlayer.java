@@ -1,18 +1,30 @@
 public class MGPlayer implements  Player{
 
+    private String name;
     private int playerID;
-    private MGScore currentScore = new MGScore();
+    private int score;
     private boolean turn;
 
-    MGPlayer(int id) {
+    MGPlayer(int id, String name) {
+        this.name = name;
         playerID = id;
-        currentScore.updateScore(0);
+        score = 0;
         turn = false;
     }
 
     @Override
-    public int getPlayerScore() {
-        return currentScore.getScore();
+    public int getScore() {
+        return score;
+    }
+
+    @Override
+    public void setScore(int points) {
+        score += points;
+    }
+
+    @Override
+    public void displayScore() {
+        System.out.println(score);
     }
 
     @Override
@@ -21,9 +33,9 @@ public class MGPlayer implements  Player{
     }
 
     @Override
-    public void display() {
+    public void displayName() {
         System.out.println("ID: " + getID());
-        System.out.println("Score: " + getPlayerScore());
+        System.out.println("Score: " + score);
     }
 
     public boolean isTurn() {

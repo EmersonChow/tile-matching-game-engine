@@ -16,6 +16,11 @@ public class MGScore implements Score{
         return score;
     }
 
+    @Override
+    public void setScore(int points) {
+        score += points;
+    }
+
 
     @Override
     public void display() {

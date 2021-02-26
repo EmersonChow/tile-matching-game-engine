@@ -1,5 +1,8 @@
 public interface Player {
-    public int getPlayerScore();
     public int getID();
-    public void display();
+    public String getName();
+    public int getScore();
+    public void setScore(int points);
+    public void displayName();
+    public void displayScore();
 }

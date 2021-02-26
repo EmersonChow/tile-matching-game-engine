@@ -22,8 +22,8 @@ public class tmge {
     private JLabel lblPlayer1;
     private JLabel lblPlayer2;
 
-    private MGPlayer player1 = new MGPlayer(100);
-    private MGPlayer player2 = new MGPlayer(101);
+    private MGPlayer player1 = new MGPlayer(101, "Coco");
+    private MGPlayer player2 = new MGPlayer(103, "Popi");
 
     private JLabel lblScore1;
     private JLabel lblScore2;
@@ -64,6 +64,7 @@ public class tmge {
                 for(int j = 0; j < TILE_HEIGHT; j++) {
                     if (e.getSource() == tiles[i][j]) {
                         if (e.getSource() instanceof Component) {
+
                             ((Component) e.getSource()).setBackground(temp[i][j]);
                         }
                     }
@@ -143,7 +144,7 @@ public class tmge {
 
 
         lblScore1 = new JLabel();
-        lblScore1.setText("Pairs: " + player1.getPlayerScore());
+        lblScore1.setText("Pairs: " + player1.getScore());
 
 
         lblPlayer2 = new JLabel();
@@ -151,7 +152,7 @@ public class tmge {
 
 
         lblScore2 = new JLabel();
-        lblScore2.setText("Pairs: " + player2.getPlayerScore());
+        lblScore2.setText("Pairs: " + player2.getScore());
 
         // the order is importnat here
 

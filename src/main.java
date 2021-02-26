@@ -10,7 +10,7 @@ public class main {
 	    System.out.println("Choose a game: memory or bejeweled");
 	    
 	    if(cal.next().equals("memory")) {
-	    	SwingUtilities.invokeLater(() -> new memory(6, 6));
+	    	SwingUtilities.invokeLater(() -> new memory(4, 4));
 	    }
 	}
 

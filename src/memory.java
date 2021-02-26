@@ -9,7 +9,8 @@ public class memory {
     int TILE_HEIGHT;
     int TILE_WIDTH;
     JButton tiles[][];
-    Color[][] board;
+    //Color[][] board;
+    Tile[][] board;
 	
     Color[] PUBLIC_COLORS = new Color[] {Color.decode("#dc143c"), Color.decode("#0000ff"), Color.decode("#008000"), Color.decode("#ffb6c1"),Color.decode("#7b68ee"),
     		Color.decode("#ff8c00"), Color.decode("#00ff00"), Color.decode("#008b8b"), Color.decode("#ffd700"),  Color.decode("#8b4513"), Color.decode("#8fbc8f"), Color.decode("#8a2be2"),
@@ -20,6 +21,7 @@ public class memory {
     
     
     public memory(int x, int y){
+    	
         TILE_HEIGHT = x;
         TILE_WIDTH = y;
         board = boardRandomizer(x, y);
@@ -27,8 +29,8 @@ public class memory {
         
     }
 
-    private Color[][] boardRandomizer(int x, int y) {
-    	Color[][] temp = new Color[x][y];
+    private Tile[][] boardRandomizer(int x, int y) {
+    	Tile[][] board = new Tile[x][y];
     	ArrayList<Color> colors = new ArrayList<Color>();
     	
     	for(int i = 0; i < ((x*y)/2); i++) {
@@ -40,14 +42,14 @@ public class memory {
     	
     	int i = 0, j = 0;
     	for (final Color colo : colors) {
-    	    temp[i][j] = colo;
+    	    board[i][j] = new Tile(colo);
     	    if (++j == x) {
     	        j = 0;
     	        ++i;
     	    }
     	}
     	
-    	return temp;
+    	return board;
     }
 
 }

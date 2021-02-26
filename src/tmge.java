@@ -10,10 +10,7 @@ public class tmge {
     int TILE_HEIGHT;
     int TILE_WIDTH;
 
-    Color temp[][] =
-            {{Color.RED, Color.BLUE, Color.GREEN},
-            {Color.RED, Color.BLUE, Color.GREEN},
-            {Color.RED, Color.BLUE, Color.GREEN}};
+    Color TMGEboard[][];
 
     private class ListenerForClick implements ActionListener {
         @Override
@@ -22,7 +19,7 @@ public class tmge {
                 for(int j = 0; j < TILE_HEIGHT; j++) {
                     if (e.getSource() == tiles[i][j]) {
                         if (e.getSource() instanceof Component) {
-                            ((Component) e.getSource()).setBackground(temp[i][j]);
+                        	((Component) e.getSource()).setBackground(TMGEboard[i][j]);
                         }
                     }
                 }
@@ -30,10 +27,10 @@ public class tmge {
         }
     }
 
-    public tmge(int x, int y) {
+    public tmge(int x, int y, Color[][] board) {
         TILE_HEIGHT = x;
         TILE_WIDTH = y;
-
+        TMGEboard = board;
         mainFrame = new JFrame("TMGE");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(700, 700);

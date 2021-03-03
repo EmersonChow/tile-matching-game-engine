@@ -11,7 +11,7 @@ public class bejeweled {
     int TILE_HEIGHT = 8;
     int TILE_WIDTH = 8;
     JButton tiles[][];
-    Color[][] board;
+    Tile[][] board;
 
     Color[] PUBLIC_COLORS = new Color[] {Color.decode("#FFB5C7"), Color.decode("#B1ACDF"), Color.decode("#afcfde"), Color.decode("#C9DE9E"),Color.decode("#FAE2BE")};
     
@@ -24,14 +24,14 @@ public class bejeweled {
         SwingUtilities.invokeLater(() -> new tmge(TILE_HEIGHT, TILE_WIDTH, board));
 	}
 	
-	public Color[][] bejeweledBoardMaker(int x, int y){
-		Color[][] temp = new Color[x][y];
+	public Tile[][] bejeweledBoardMaker(int x, int y){
+		Tile[][] temp = new Tile[x][y];
 		int i = 0, j = 0;
 		while(((i+1)*(j+1)) < (x*y)) {
 			int randomColor = new Random().nextInt(PUBLIC_COLORS.length);
 			if(i < 2) {
 				if(checkHorizontalForCreateBoard(i, j, temp, randomColor)){
-					temp[i][j] = PUBLIC_COLORS[randomColor];
+					temp[i][j] = new Tile(PUBLIC_COLORS[randomColor]);
 					if (++j == y) {
 		    	        j = 0;
 		    	        ++i;
@@ -40,7 +40,7 @@ public class bejeweled {
 			}
 			else{
 				if(checkVerticalForCreateBoard(i,j,temp,randomColor) && checkHorizontalForCreateBoard(i, j, temp, randomColor)) {
-					temp[i][j] = PUBLIC_COLORS[randomColor];
+					temp[i][j] = new Tile(PUBLIC_COLORS[randomColor]);
 					if (++j == y) {
 		    	        j = 0;
 		    	        ++i;
@@ -53,7 +53,7 @@ public class bejeweled {
 		while(j < y) {
 			int randomColor = new Random().nextInt(PUBLIC_COLORS.length);
 			if(checkVerticalForCreateBoard(i,j,temp,randomColor) && checkHorizontalForCreateBoard(i, j, temp, randomColor)) {
-				temp[i][j] = PUBLIC_COLORS[randomColor];
+				temp[i][j] = new Tile(PUBLIC_COLORS[randomColor]);
 				j++;
 			}
 		}
@@ -61,18 +61,18 @@ public class bejeweled {
 		return temp;
 	}
 	
-	public boolean checkVerticalForCreateBoard(int x, int y, Color[][] currentBoard, int newcolor) {
+	public boolean checkVerticalForCreateBoard(int x, int y, Tile[][] currentBoard, int newcolor) {
 		if(x >= 2) {
-			if(currentBoard[x-1][y] == PUBLIC_COLORS[newcolor] && currentBoard[x-2][y] == PUBLIC_COLORS[newcolor]) {
+			if(currentBoard[x-1][y].getColor() == PUBLIC_COLORS[newcolor] && currentBoard[x-2][y].getColor() == PUBLIC_COLORS[newcolor]) {
 				return false;
 			}
 		}
 		return true;
 	}
 	
-	public boolean checkHorizontalForCreateBoard(int x, int y, Color[][] currentBoard, int newcolor) {
+	public boolean checkHorizontalForCreateBoard(int x, int y, Tile[][] currentBoard, int newcolor) {
 		if(y >= 2) {
-			if(currentBoard[x][y-1] == PUBLIC_COLORS[newcolor] && currentBoard[x][y-2] == PUBLIC_COLORS[newcolor]) {
+			if(currentBoard[x][y-1].getColor() == PUBLIC_COLORS[newcolor] && currentBoard[x][y-2].getColor() == PUBLIC_COLORS[newcolor]) {
 				return false;
 			}
 		}
@@ -102,7 +102,7 @@ public class bejeweled {
 		int matches = 0;
 		
 		// Color of the switched tile
-		Color match = this.board[row][column];
+		Tile match = this.board[row][column];
 		
 		row--;
 		//Iterate up through the board keeping in bounds to count the number of tiles with the same color
@@ -121,7 +121,7 @@ public class bejeweled {
 		int matches = 0;
 		
 		// Color of the switched tile
-		Color match = this.board[row][column];
+		Tile match = this.board[row][column];
 		
 		row++;
 		//Iterate down through the board keeping in bounds to count the number of tiles with the same color
@@ -140,7 +140,7 @@ public class bejeweled {
 		int matches = 0;
 		
 		// Color of the switched tile
-		Color match = this.board[row][column];
+		Tile match = this.board[row][column];
 		
 		column++;
 		//Iterate right through the board keeping in bounds to count the number of tiles with the same color
@@ -159,7 +159,7 @@ public class bejeweled {
 		int matches = 0;
 		
 		// Color of the switched tile
-		Color match = this.board[row][column];
+		Tile match = this.board[row][column];
 		
 		column--;
 		//Iterate left through the board keeping in bounds to count the number of tiles with the same color
@@ -191,7 +191,7 @@ public class bejeweled {
 
 
 			int randomColor = new Random().nextInt(PUBLIC_COLORS.length);
-			board[currentRow][i] = PUBLIC_COLORS[randomColor];
+			board[currentRow][i] = new Tile(PUBLIC_COLORS[randomColor]);
 		}
 	  }
 
@@ -212,7 +212,7 @@ public class bejeweled {
 		for (int i =0; i<up+down+1; i++)
 		{
 			int randomColor = new Random().nextInt(PUBLIC_COLORS.length);
-			board[i][column] = PUBLIC_COLORS[randomColor];
+			board[i][column] = new Tile(PUBLIC_COLORS[randomColor]);
 		}
 
 	}
@@ -222,7 +222,7 @@ public class bejeweled {
 		switches two colors. Eventually tiles-buttons- might be used instead of board-colors-, shifting will need to be done to that one instead.
 	*/
 	{
-		Color first = board[firstSelectedRow][firstSelectedColumn];
+		Tile first = board[firstSelectedRow][firstSelectedColumn];
 		board[firstSelectedRow][firstSelectedColumn] = board[secondSelectedRow][secondSelectedColumn];
 		board[secondSelectedRow][secondSelectedColumn] = first;
 	  }

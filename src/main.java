@@ -10,7 +10,9 @@ public class main {
 	    System.out.println("Choose a game: memory or bejeweled");
 	    
 	    if(cal.next().equals("memory")) {
-	    	SwingUtilities.invokeLater(() -> new memory(4, 4));
+	    	System.out.println("Please specify the board size (i.e. 4 for 4x4)");
+	    	int boardsize = cal.nextInt();
+	    	SwingUtilities.invokeLater(() -> new memory(boardsize, boardsize));
 	    }
 	}
 

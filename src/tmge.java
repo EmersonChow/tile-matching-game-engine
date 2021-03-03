@@ -3,12 +3,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class tmge {
     JFrame mainFrame;
     JPanel scorePanel;
     JLabel p1Label;
     JLabel p2Label;
+    JLabel gameStatusLabel;
     JPanel tilePanel;
     JButton tiles[][];
     int TILE_HEIGHT;
@@ -18,8 +20,11 @@ public class tmge {
     Player p1;
     Player p2;
 
-    Component selectedTileButton;
-    Tile selectedTile;
+    Component firstTileButton;
+    Component secondTileButton;
+    
+    Tile firstTile;
+    Tile secondTile;
     
     Tile TMGEboard[][];
     
@@ -33,7 +38,13 @@ public class tmge {
                 for(int j = 0; j < TILE_HEIGHT; j++) {
                     if (e.getSource() == tiles[i][j]) {
                         if (e.getSource() instanceof Component) {
-                        	checkMatch(i,j,e);
+                        	try {
+								checkMatch(i,j,e);
+								checkWin();
+							} catch (InterruptedException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
                         }
                     }
                 }
@@ -41,49 +52,59 @@ public class tmge {
         }
     }
     
-    public void checkMatch(int x, int y, ActionEvent e) {
+    public void checkMatch(int x, int y, ActionEvent e) throws InterruptedException {
     	// Reveals first tile
-    	if(selectedTile == null) {
-    		selectedTile = TMGEboard[x][y];
-    		selectedTileButton = ((Component) e.getSource());
-    		((Component) e.getSource()).setBackground(TMGEboard[x][y].getColor());
-    		TMGEboard[x][y].reveal();
+    	
+    	if(firstTile == null && !matched.contains(TMGEboard[x][y])) {
+    		firstTile = TMGEboard[x][y];
+    		firstTileButton = ((Component) e.getSource());
+    		firstTileButton.setBackground(TMGEboard[x][y].getColor());
+    		firstTile.reveal();
     	}
     	
     	// Reveals second tile & checks for match
     	else {
-    		if(selectedTile != TMGEboard[x][y] && !matched.contains(TMGEboard[x][y])) {
+    		secondTile = TMGEboard[x][y];
+        	secondTileButton = ((Component) e.getSource());
+    		
+    		if(firstTile != secondTile && !matched.contains(secondTile)) {
     			
 	    		// Successful Match
-	    		if(selectedTile.getColor() == TMGEboard[x][y].getColor()) {
-	    			((Component) e.getSource()).setBackground(TMGEboard[x][y].getColor());
-	        		TMGEboard[x][y].reveal();
+	    		if(firstTile.getColor() == secondTile.getColor()) {
+	    			secondTileButton.setBackground(secondTile.getColor());
+	        		secondTile.reveal();
 	        		
 	        		// add to matched list
-	        		matched.add(selectedTile);
-	        		matched.add(TMGEboard[x][y]);
+	        		matched.add(firstTile);
+	        		matched.add(secondTile);
 	        		
 	    			currentPlayer.addPoint();
 	    			updateLabel();
-	
 	    		}
 	    		
 	    		// Hide both tiles again
 	    		else {
-	    			selectedTileButton.setBackground(Color.GRAY);
-	    			selectedTile.hide();
-	    			((Component) e.getSource()).setBackground(Color.GRAY);
-	    			TMGEboard[x][y].hide();
+	    			// Sleep functionality still not changing accurately
+	    			// secondTileButton.setBackground(secondTile.getColor());
+	    			// Thread.sleep(2000);
+	    			
+	    			firstTileButton.setBackground(Color.GRAY);
+	    			firstTile.hide();
+	    			
+	    			secondTileButton.setBackground(Color.GRAY);
+	    			
 	    			switchPlayers();
 	    		}
 	    		
 	    		// Reset selected tiles
-	    		selectedTile = null;
-	    		selectedTileButton = null;
+	    		firstTile = null;
+	    		firstTileButton = null;
+	    		secondTile = null;
+	    		secondTileButton = null;
     		}
     	}
     }
-    
+
     public void updateScores() {
     	p1Label.setText("Player 1 score: " + p1.getPlayerScore());
     	p2Label.setText("Player 1 score: " + p1.getPlayerScore());
@@ -92,15 +113,45 @@ public class tmge {
     public void switchPlayers() {
     	if(currentPlayer == p1) {
     		currentPlayer = p2;
+    		p2Label.setBackground(Color.decode("#fc0303"));
+    		gameStatusLabel.setText("Current player: Player 2");
+    		p1Label.setBackground(Color.WHITE);
     	}
     	else {
     		currentPlayer = p1;
+    		p1Label.setBackground(Color.decode("#56CBF9"));
+    		gameStatusLabel.setText("Current player: Player 1");
+    		p2Label.setBackground(Color.WHITE);
     	}
     }
     
     public void updateLabel() {
 		p1Label.setText("Player 1 score: " + p1.getPlayerScore());
 		p2Label.setText("Player 2 score: " + p2.getPlayerScore());
+    }
+    
+    public void checkWin() {
+    	int boardsize = TILE_HEIGHT*TILE_WIDTH;
+    	if(matched.size() >= boardsize) {
+    		// Player 1 win
+    		if(p1.getPlayerScore() > p2.getPlayerScore()) {
+    			gameStatusLabel.setText("Game over! Player 1 wins!");
+    			p1Label.setBackground(Color.decode("#56CBF9"));
+    			p2Label.setBackground(Color.WHITE);
+    		}
+    		// Player 2 win
+    		else if(p1.getPlayerScore() < p2.getPlayerScore()) {
+    			gameStatusLabel.setText("Game over! Player 2 wins!");
+    			p1Label.setBackground(Color.WHITE);
+    			p2Label.setBackground(Color.decode("#fc0303"));
+    		}
+    		// Tied score
+    		else {
+    			gameStatusLabel.setText("Game over! Its a draw!");
+    			p1Label.setBackground(Color.WHITE);
+    			p2Label.setBackground(Color.WHITE);
+    		}
+    	}
     }
 
     public tmge(int x, int y, Tile[][] board) {
@@ -119,9 +170,14 @@ public class tmge {
         mainFrame.setSize(700, 700);
 
         scorePanel = new JPanel();
+        gameStatusLabel = new JLabel("Current player: Player 1");
         p1Label = new JLabel("Player 1 score: " + p1.getPlayerScore());
+        p1Label.setOpaque(true);
+        p1Label.setBackground(Color.decode("#56CBF9"));
         p2Label = new JLabel("Player 2 score: " + p2.getPlayerScore());
-        
+        p2Label.setOpaque(true);
+
+        scorePanel.add(gameStatusLabel);
         scorePanel.add(p1Label);
         scorePanel.add(p2Label);
         

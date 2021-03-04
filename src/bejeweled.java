@@ -87,11 +87,11 @@ public class bejeweled {
 		This function returns T/F depending on if the tiles are next to each other. Used to check whether a player is allowed to swap.
 	*/
 	{
-    	return (secondSelectedRow == this.firstSelectedRow && 
-		(secondSelectedColumn - this.firstSelectedColumn == 1 || secondSelectedColumn - this.firstSelectedColumn == -1)) 
+    	return (this.firstSelectedRow  == secondSelectedRow && 
+		(this.firstSelectedColumn -secondSelectedColumn == 1 || this.firstSelectedColumn - secondSelectedColumn == -1)) 
 		|| 
-		(secondSelectedColumn == this.firstSelectedColumn && 
-		(secondSelectedRow - this.firstSelectedRow == 1 || secondSelectedRow - this.firstSelectedRow == -1));
+		(this.firstSelectedColumn == secondSelectedColumn && 
+		(this.firstSelectedRow -secondSelectedRow == 1 || this.firstSelectedRow - secondSelectedRow == -1));
   	}
 
 	public int upMatch(int row, int column) 
@@ -102,11 +102,11 @@ public class bejeweled {
 		int matches = 0;
 		
 		// Color of the switched tile
-		Tile match = this.board[row][column];
+		Color match = this.board[row][column].getColor();
 		
 		row--;
 		//Iterate up through the board keeping in bounds to count the number of tiles with the same color
-		while (row >= 0 && this.board[row][column] == match) {
+		while (row >= 0 && this.board[row][column].getColor() == match) {
 		  matches++;
 		  row--;
 		}
@@ -121,11 +121,11 @@ public class bejeweled {
 		int matches = 0;
 		
 		// Color of the switched tile
-		Tile match = this.board[row][column];
+		Color match = this.board[row][column].getColor();
 		
 		row++;
 		//Iterate down through the board keeping in bounds to count the number of tiles with the same color
-		while (row <= TILE_HEIGHT-1 && this.board[row][column] == match) {
+		while (row <= TILE_HEIGHT-1 && this.board[row][column].getColor() == match) {
 		  matches++;
 		  row++;
 		}
@@ -140,11 +140,11 @@ public class bejeweled {
 		int matches = 0;
 		
 		// Color of the switched tile
-		Tile match = this.board[row][column];
+		Color match = this.board[row][column].getColor();
 		
 		column++;
 		//Iterate right through the board keeping in bounds to count the number of tiles with the same color
-		while (column <= TILE_WIDTH-1 & this.board[row][column] == match) {
+		while (column <= TILE_WIDTH-1 & this.board[row][column].getColor() == match) {
 		  matches++;
 		  column++;
 		}
@@ -159,11 +159,11 @@ public class bejeweled {
 		int matches = 0;
 		
 		// Color of the switched tile
-		Tile match = this.board[row][column];
+		Color match = this.board[row][column].getColor();
 		
 		column--;
 		//Iterate left through the board keeping in bounds to count the number of tiles with the same color
-		while (column >= 0 && this.board[row][column] == match) {
+		while (column >= 0 && this.board[row][column].getColor() == match) {
 		  matches++;
 		  column--;
 		}

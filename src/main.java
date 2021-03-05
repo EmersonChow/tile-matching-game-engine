@@ -14,6 +14,9 @@ public class main {
 	    	int boardsize = cal.nextInt();
 	    	SwingUtilities.invokeLater(() -> new memory(boardsize, boardsize));
 	    }
+	    else {
+	    	SwingUtilities.invokeLater(() -> new bejeweled());
+	    }
 	}
 
 }

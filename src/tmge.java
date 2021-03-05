@@ -40,7 +40,14 @@ public class tmge {
                         if (e.getSource() instanceof Component) {
                         	try {
 								checkMatch(i,j,e);
-								checkWin();
+								int delay = 750;
+					        	Timer timer = new Timer( delay, new ActionListener(){
+					        	  @Override
+					        	  public void actionPerformed( ActionEvent e ){
+					        		  checkWin();
+					        	  }
+					        	});
+					        	timer.start();
 								
 							} catch (InterruptedException e1) {
 								// TODO Auto-generated catch block

@@ -97,18 +97,17 @@ public class Memory {
 		    		if(firstTile != secondTile && !matched.contains(secondTile)) {
 		    			
 			    		// Successful Match
-			    		if(firstTile.getColor() == secondTile.getColor()) {
-			    			//secondTileButton.setBackground(secondTile.getColor());
-			        		//secondTile.reveal();
-			        		
-			        		// add to matched list
-			        		matched.add(firstTile);
-			        		matched.add(secondTile);
-			        		
-			    			currentPlayer.addPoint();
-			    			updateLabel();
-			    			checkWin();
-			    		}
+		    			if(firstTile.getColor() == secondTile.getColor()) {
+							secondTileButton.setBackground(secondTile.getColor());
+							secondTile.reveal();
+
+							// add to matched list
+							matched.add(firstTile);
+							matched.add(secondTile);
+
+							currentPlayer.addPoint();
+							scoreboard.updateScores();
+						}
 			    		
 			    		// Hide both tiles again
 			    		else {

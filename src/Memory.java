@@ -50,7 +50,7 @@ public class Memory {
 			}
 		}
 		scoreboard = new MemoryScoreboard(env.getScorePanel(), p1, p2);
-		SwingUtilities.invokeLater((Runnable) env);
+
 	}
 
 	private class ListenerForClick implements ActionListener {

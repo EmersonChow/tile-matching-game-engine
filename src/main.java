@@ -12,6 +12,9 @@ public class main {
 	    if(cal.next().equals("memory")) {
 	    	SwingUtilities.invokeLater(() -> new Memory(4, 4));
 	    }
+	    else {
+	    	SwingUtilities.invokeLater(() -> new bejeweled());
+	    }
 	}
 
 }

@@ -1,4 +1,7 @@
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,6 +15,7 @@ public class bejeweled {
     int TILE_WIDTH = 8;
     JButton tiles[][];
     Tile[][] board;
+    TMGEv2 env;
 
     Color[] PUBLIC_COLORS = new Color[] {Color.decode("#FFB5C7"), Color.decode("#B1ACDF"), Color.decode("#afcfde"), Color.decode("#C9DE9E"),Color.decode("#FAE2BE")};
     
@@ -20,9 +24,32 @@ public class bejeweled {
 
 	public bejeweled() {
 		// TODO Auto-generated constructor stub
-        board = bejeweledBoardMaker(TILE_HEIGHT, TILE_WIDTH);
-        SwingUtilities.invokeLater(() -> new tmge(TILE_HEIGHT, TILE_WIDTH, board));
+		board = bejeweledBoardMaker(TILE_HEIGHT, TILE_WIDTH);
+		env = new TMGEv2(TILE_WIDTH, TILE_HEIGHT, "Bejeweled Game");
+        tiles = env.getTilesInterface();
+		for (int i = 0 ; i < TILE_HEIGHT ; i++) {
+			for (int j = 0; j < TILE_WIDTH; j++) {
+				tiles[i][j].addActionListener(new ListenerForClick());
+			}
+		}
+		revealAllColorsBoardCreation(tiles, board);
+        //SwingUtilities.invokeLater(() -> new tmge(TILE_HEIGHT, TILE_WIDTH, board));
 	}
+	
+	private class ListenerForClick implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+			for(int i = 0; i < TILE_WIDTH; i++) {
+				for(int j = 0; j < TILE_HEIGHT; j++) {
+					if (e.getSource() == tiles[i][j]) {
+						if (e.getSource() instanceof Component) {
+							((Component) e.getSource()).setBackground(Color.decode("#000000"));
+						}
+					}
+				}
+			}
+		}
+    }
 	
 	public Tile[][] bejeweledBoardMaker(int x, int y){
 		Tile[][] temp = new Tile[x][y];
@@ -78,9 +105,23 @@ public class bejeweled {
 		}
 		return true;
 	}
-
-
-
+	
+	public void revealAllColorsBoardCreation(JButton[][] tilebuttons, Tile[][] board) {
+		int i = 0, j = 0;
+		while(((i+1)*(j+1)) < (TILE_WIDTH*TILE_HEIGHT)) {
+    	    tilebuttons[i][j].setBackground(board[i][j].getColor());
+    	    if (++j == TILE_HEIGHT) {
+    	        j = 0;
+    	        ++i;
+    	    }
+    	}
+		
+		// for the very last tile
+		while(j < TILE_HEIGHT) {
+			tilebuttons[i][j].setBackground(board[i][j].getColor());
+			j++;
+		}
+	}
 
 	public boolean spotsTouch(int secondSelectedRow, int secondSelectedColumn) 
 	/*

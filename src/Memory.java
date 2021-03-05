@@ -85,7 +85,7 @@ public class Memory {
 
 		// Reveals second tile & checks for match
     	else {
-    		secondTile = TMGEboard[x][y];
+    		secondTile = board[x][y];
         	secondTileButton = ((Component) e.getSource());
         	secondTileButton.setBackground(secondTile.getColor());
         	secondTile.reveal();

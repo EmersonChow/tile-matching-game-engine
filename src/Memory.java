@@ -107,6 +107,7 @@ public class Memory {
 
 							currentPlayer.addPoint();
 							scoreboard.updateScores();
+							checkWin();
 						}
 			    		
 			    		// Hide both tiles again

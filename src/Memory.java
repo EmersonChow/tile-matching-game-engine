@@ -84,46 +84,58 @@ public class Memory {
 		}
 
 		// Reveals second tile & checks for match
-		else {
-			secondTile = board[x][y];
-			secondTileButton = ((Component) e.getSource());
+    	else {
+    		secondTile = TMGEboard[x][y];
+        	secondTileButton = ((Component) e.getSource());
+        	secondTileButton.setBackground(secondTile.getColor());
+        	secondTile.reveal();
+        	int delay = 750;
+        	Timer timer = new Timer( delay, new ActionListener(){
+        	  @Override
+        	  public void actionPerformed( ActionEvent e ){
 
-			if(firstTile != secondTile && !matched.contains(secondTile)) {
-
-				// Successful Match
-				if(firstTile.getColor() == secondTile.getColor()) {
-					secondTileButton.setBackground(secondTile.getColor());
-					secondTile.reveal();
-
-					// add to matched list
-					matched.add(firstTile);
-					matched.add(secondTile);
-
-					currentPlayer.addPoint();
-					scoreboard.updateScores();
-				}
-
-				// Hide both tiles again
-				else {
-					// Sleep functionality still not changing accurately
-					// secondTileButton.setBackground(secondTile.getColor());
-					// Thread.sleep(2000);
-
-					firstTileButton.setBackground(Color.GRAY);
-					firstTile.hide();
-
-					secondTileButton.setBackground(Color.GRAY);
-
-					switchPlayers();
-				}
-
-				// Reset selected tiles
-				firstTile = null;
-				firstTileButton = null;
-				secondTile = null;
-				secondTileButton = null;
-			}
-		}
+		    		if(firstTile != secondTile && !matched.contains(secondTile)) {
+		    			
+			    		// Successful Match
+			    		if(firstTile.getColor() == secondTile.getColor()) {
+			    			//secondTileButton.setBackground(secondTile.getColor());
+			        		//secondTile.reveal();
+			        		
+			        		// add to matched list
+			        		matched.add(firstTile);
+			        		matched.add(secondTile);
+			        		
+			    			currentPlayer.addPoint();
+			    			updateLabel();
+			    			checkWin();
+			    		}
+			    		
+			    		// Hide both tiles again
+			    		else {
+			    			// Sleep functionality still not changing accurately
+			    			// secondTileButton.setBackground(secondTile.getColor());
+			    			
+			    			firstTileButton.setBackground(Color.GRAY);
+			    			firstTile.hide();
+			    			
+			    			secondTileButton.setBackground(Color.GRAY);
+			    			secondTile.hide();
+		
+			    			switchPlayers();
+			    			//Thread.sleep(2000);
+			    		}
+			    		
+			    		// Reset selected tiles
+			    		firstTile = null;
+			    		firstTileButton = null;
+			    		secondTile = null;
+			    		secondTileButton = null;
+		    		}
+		    	}
+          	} );
+          	timer.setRepeats( false );
+          	timer.start();
+      	  }
 	}
 
 	public void switchPlayers() {

@@ -2,7 +2,7 @@ import java.awt.Color;
 
 public class Tile {
 	Color color;
-	boolean active = true;
+	boolean active = false;
 	
 	Tile(Color c){
 		color = c;

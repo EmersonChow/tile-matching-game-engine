@@ -40,14 +40,6 @@ public class tmge {
                         if (e.getSource() instanceof Component) {
                         	try {
 								checkMatch(i,j,e);
-								int delay = 750;
-					        	Timer timer = new Timer( delay, new ActionListener(){
-					        	  @Override
-					        	  public void actionPerformed( ActionEvent e ){
-					        		  checkWin();
-					        	  }
-					        	});
-					        	timer.start();
 								
 							} catch (InterruptedException e1) {
 								// TODO Auto-generated catch block
@@ -95,6 +87,7 @@ public class tmge {
 			        		
 			    			currentPlayer.addPoint();
 			    			updateLabel();
+			    			checkWin();
 			    		}
 			    		
 			    		// Hide both tiles again

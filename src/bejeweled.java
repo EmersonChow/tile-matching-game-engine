@@ -48,13 +48,25 @@ public class bejeweled {
 								firstSelectedRow = i;
 								firstSelectedColumn = j;
 							} else {
-								Tile temp = board[i][j];
-								board[i][j] = board[firstSelectedRow][firstSelectedColumn];
-								board[firstSelectedRow][firstSelectedColumn] = temp;
-								firstSelectedRow = -1;
-								firstSelectedColumn= -1;
+								
+								if (i == firstSelectedRow && j == firstSelectedColumn) {
+									firstSelectedRow = -1;
+									firstSelectedColumn= -1;
+									revealAllColorsBoardCreation(tiles, board);
+								}
+								else if (spotsTouch(i,j)) {
+									Tile temp = board[i][j];
+									board[i][j] = board[firstSelectedRow][firstSelectedColumn];
+									board[firstSelectedRow][firstSelectedColumn] = temp;
+									firstSelectedRow = -1;
+									firstSelectedColumn= -1;
+									
 								// add tile match checking logic here
-								revealAllColorsBoardCreation(tiles, board);
+									
+									revealAllColorsBoardCreation(tiles, board);
+									
+								
+								}
 							}
 						}
 					}

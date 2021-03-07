@@ -43,7 +43,19 @@ public class bejeweled {
 				for(int j = 0; j < TILE_HEIGHT; j++) {
 					if (e.getSource() == tiles[i][j]) {
 						if (e.getSource() instanceof Component) {
-							((Component) e.getSource()).setBackground(Color.decode("#000000"));
+							if (firstSelectedRow == -1 && firstSelectedColumn == -1) {
+								((Component) e.getSource()).setBackground(Color.GRAY);
+								firstSelectedRow = i;
+								firstSelectedColumn = j;
+							} else {
+								Tile temp = board[i][j];
+								board[i][j] = board[firstSelectedRow][firstSelectedColumn];
+								board[firstSelectedRow][firstSelectedColumn] = temp;
+								firstSelectedRow = -1;
+								firstSelectedColumn= -1;
+								// add tile match checking logic here
+								revealAllColorsBoardCreation(tiles, board);
+							}
 						}
 					}
 				}

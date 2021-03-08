@@ -62,7 +62,6 @@ public class Memory {
 						if (e.getSource() instanceof Component) {
 							try {
 								checkMatch(i,j,e);
-								checkWin();
 							} catch (InterruptedException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
@@ -76,11 +75,13 @@ public class Memory {
 
 	public void checkMatch(int x, int y, ActionEvent e) throws InterruptedException {
 		// Reveals first tile
+		
 		if(firstTile == null && !matched.contains(board[x][y])) {
 			firstTile = board[x][y];
 			firstTileButton = ((Component) e.getSource());
 			firstTileButton.setBackground(board[x][y].getColor());
 			firstTile.reveal();
+			firstTileButton.setEnabled(false);
 		}
 
 		// Reveals second tile & checks for match
@@ -89,13 +90,14 @@ public class Memory {
         	secondTileButton = ((Component) e.getSource());
         	secondTileButton.setBackground(secondTile.getColor());
         	secondTile.reveal();
+        	// Disable buttons for sleep duration
+        	disableButtons();
+        	
         	int delay = 750;
         	Timer timer = new Timer( delay, new ActionListener(){
         	  @Override
         	  public void actionPerformed( ActionEvent e ){
-
 		    		if(firstTile != secondTile && !matched.contains(secondTile)) {
-		    			
 			    		// Successful Match
 		    			if(firstTile.getColor() == secondTile.getColor()) {
 							secondTileButton.setBackground(secondTile.getColor());
@@ -112,17 +114,13 @@ public class Memory {
 			    		
 			    		// Hide both tiles again
 			    		else {
-			    			// Sleep functionality still not changing accurately
-			    			// secondTileButton.setBackground(secondTile.getColor());
-			    			
 			    			firstTileButton.setBackground(Color.GRAY);
 			    			firstTile.hide();
 			    			
 			    			secondTileButton.setBackground(Color.GRAY);
 			    			secondTile.hide();
-		
+			    			
 			    			switchPlayers();
-			    			//Thread.sleep(2000);
 			    		}
 			    		
 			    		// Reset selected tiles
@@ -131,12 +129,37 @@ public class Memory {
 			    		secondTile = null;
 			    		secondTileButton = null;
 		    		}
+		    		enableButtons();
 		    	}
           	} );
           	timer.setRepeats( false );
           	timer.start();
       	  }
+		
 	}
+	
+	public void disableButtons() {
+		// Disables all buttons
+		
+		for (int i = 0 ; i < TILE_HEIGHT ; i++) {
+            for (int j = 0 ; j < TILE_WIDTH ; j++) {
+            	tiles[i][j].setEnabled(false);
+            }
+		}
+	}
+	
+	public void enableButtons() {
+		// Re-enables buttons that have not already been matched
+		
+		for (int i = 0 ; i < TILE_HEIGHT ; i++) {
+            for (int j = 0 ; j < TILE_WIDTH ; j++) {
+            	if (!matched.contains(board[i][j])) {
+            		tiles[i][j].setEnabled(true);
+            	}
+            }
+		}
+	}
+	
 
 	public void switchPlayers() {
 		if(currentPlayer == p1) {

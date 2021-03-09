@@ -9,12 +9,12 @@ public class main {
 		Scanner cal = new Scanner(System.in);  // Create a Scanner object
 	    System.out.println("Choose a game: memory or bejeweled");
 	    
-	    if(cal.next().equals("memory")) {
-	    	SwingUtilities.invokeLater(() -> new Memory(4, 4));
-	    }
-	    else {
+	   // if(cal.next().equals("memory")) {
+	 //   	SwingUtilities.invokeLater(() -> new Memory(4, 4));
+	    //}
+	    //else {
 	    	SwingUtilities.invokeLater(() -> new bejeweled());
-	    }
+	   // }
 	}
 
 }

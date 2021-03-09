@@ -14,7 +14,7 @@ public class bejeweled {
     int TILE_HEIGHT = 8;
     int TILE_WIDTH = 8;
     JButton tiles[][];
-    Tile[][] board;
+    BejeweledTile[][] board;
     TMGEv2 env;
 
     Color[] PUBLIC_COLORS = new Color[] {Color.decode("#FFB5C7"), Color.decode("#B1ACDF"), Color.decode("#afcfde"), Color.decode("#C9DE9E"),Color.decode("#FAE2BE")};
@@ -55,13 +55,16 @@ public class bejeweled {
 									revealAllColorsBoardCreation(tiles, board);
 								}
 								else if (spotsTouch(i,j)) {
-									Tile temp = board[i][j];
+									BejeweledTile temp = board[i][j];
 									board[i][j] = board[firstSelectedRow][firstSelectedColumn];
 									board[firstSelectedRow][firstSelectedColumn] = temp;
-									firstSelectedRow = -1;
-									firstSelectedColumn= -1;
+
 									
 								// add tile match checking logic here
+									performLogic(i,j);
+									performLogic(firstSelectedRow,firstSelectedColumn);
+									firstSelectedRow = -1;
+									firstSelectedColumn= -1;
 									
 									revealAllColorsBoardCreation(tiles, board);
 									
@@ -75,14 +78,14 @@ public class bejeweled {
 		}
     }
 	
-	public Tile[][] bejeweledBoardMaker(int x, int y){
-		Tile[][] temp = new Tile[x][y];
+	public BejeweledTile[][] bejeweledBoardMaker(int x, int y){
+		BejeweledTile[][] temp = new BejeweledTile[x][y];
 		int i = 0, j = 0;
 		while(((i+1)*(j+1)) < (x*y)) {
 			int randomColor = new Random().nextInt(PUBLIC_COLORS.length);
 			if(i < 2) {
 				if(checkHorizontalForCreateBoard(i, j, temp, randomColor)){
-					temp[i][j] = new Tile(PUBLIC_COLORS[randomColor]);
+					temp[i][j] = new BejeweledTile(PUBLIC_COLORS[randomColor],i,j);
 					if (++j == y) {
 		    	        j = 0;
 		    	        ++i;
@@ -91,7 +94,7 @@ public class bejeweled {
 			}
 			else{
 				if(checkVerticalForCreateBoard(i,j,temp,randomColor) && checkHorizontalForCreateBoard(i, j, temp, randomColor)) {
-					temp[i][j] = new Tile(PUBLIC_COLORS[randomColor]);
+					temp[i][j] = new BejeweledTile(PUBLIC_COLORS[randomColor],i,j);
 					if (++j == y) {
 		    	        j = 0;
 		    	        ++i;
@@ -104,7 +107,7 @@ public class bejeweled {
 		while(j < y) {
 			int randomColor = new Random().nextInt(PUBLIC_COLORS.length);
 			if(checkVerticalForCreateBoard(i,j,temp,randomColor) && checkHorizontalForCreateBoard(i, j, temp, randomColor)) {
-				temp[i][j] = new Tile(PUBLIC_COLORS[randomColor]);
+				temp[i][j] = new BejeweledTile(PUBLIC_COLORS[randomColor],i,j);
 				j++;
 			}
 		}
@@ -208,11 +211,13 @@ public class bejeweled {
 		Color match = this.board[row][column].getColor();
 		
 		column++;
+	
 		//Iterate right through the board keeping in bounds to count the number of tiles with the same color
-		while (column <= TILE_WIDTH-1 & this.board[row][column].getColor() == match) {
-		  matches++;
-		  column++;
+		while (column <= TILE_WIDTH-1 && this.board[row][column].getColor() == match) {
+		matches++;
+		column++;
 		}
+		
 		return matches;
 	}
 
@@ -235,13 +240,14 @@ public class bejeweled {
 		return matches;
 	}
 
-	public void fallHorizontal(int row, int column, int left, int right) 
+	public ArrayList<BejeweledTile> fallHorizontal(int row, int column, int left, int right) 
 	/*
 		Checks left and right of a single tile at row,column and deletes those buttons. Then creates the same number of buttons above.
 		Eventually tiles-buttons- might be used instead of board-colors-, shifting will need to be done to that one instead. 
 	*/
 	{
-     
+		
+		ArrayList<BejeweledTile> TileList = new ArrayList<BejeweledTile>();
 		//loop through the furthest left to the furthest right
 		for (int i = column - left; i <= column + right; i++)
 		{
@@ -256,19 +262,22 @@ public class bejeweled {
 
 
 			int randomColor = new Random().nextInt(PUBLIC_COLORS.length);
-			board[currentRow][i] = new Tile(PUBLIC_COLORS[randomColor]);
+			board[currentRow][i] = new BejeweledTile(PUBLIC_COLORS[randomColor],currentRow,i);
+			TileList.add(board[currentRow][i]);
 		}
+		
+		return TileList;
 	  }
 
-	public void fallVertical(int row, int column, int up, int down) 
+	public ArrayList<BejeweledTile> fallVertical(int row, int column, int up, int down) 
 	/*
 		Checks up and down of a single tile at row,column and deletes those buttons. Then creates the same number of buttons above.
 		Eventually tiles-buttons- might be used instead of board-colors-, shifting will need to be done to that one instead. 
 	*/
 	{
-	
+		ArrayList<BejeweledTile> TileList = new ArrayList<BejeweledTile>();
 		//loop through the highest up to the lowest down
-		for (int i = row - up - 1; i <= 0; i--)
+		for (int i = row - up - 1; i == 0; i--)
 		{
 			board[row+down][column] = board[i][column];	
 			row--;		
@@ -277,8 +286,11 @@ public class bejeweled {
 		for (int i =0; i<up+down+1; i++)
 		{
 			int randomColor = new Random().nextInt(PUBLIC_COLORS.length);
-			board[i][column] = new Tile(PUBLIC_COLORS[randomColor]);
+			board[i][column] = new BejeweledTile(PUBLIC_COLORS[randomColor],i,column);
+			TileList.add(board[i][column]);
 		}
+		
+		return TileList;
 
 	}
 
@@ -287,8 +299,44 @@ public class bejeweled {
 		switches two colors. Eventually tiles-buttons- might be used instead of board-colors-, shifting will need to be done to that one instead.
 	*/
 	{
-		Tile first = board[firstSelectedRow][firstSelectedColumn];
+		BejeweledTile first = board[firstSelectedRow][firstSelectedColumn];
 		board[firstSelectedRow][firstSelectedColumn] = board[secondSelectedRow][secondSelectedColumn];
 		board[secondSelectedRow][secondSelectedColumn] = first;
 	  }
+	
+	public void performLogic(int row, int col) {
+		
+		// call checking functions
+		int rmatch = rightMatch(row,col);
+		int lmatch = leftMatch(row,col);
+		int umatch = upMatch(row,col);
+		int dmatch = downMatch(row,col);
+		
+		ArrayList<BejeweledTile> tileList = new ArrayList<BejeweledTile>();
+						
+		
+		// check for horizontal match
+		if ( lmatch + rmatch + 1 >= 3) {
+			  tileList = fallHorizontal( row,col,lmatch,rmatch); 
+			
+		}
+		
+	
+		// check for vertical matching
+		else if (umatch + dmatch + 1 >= 3) {
+			tileList = fallVertical( row,col,umatch,dmatch); 
+
+		}
+	
+		while(!tileList.isEmpty()) {
+			for(int i = 0; i < tileList.size(); ++i) {
+				performLogic(tileList.get(i).row, (tileList.get(i).column));
+				tileList.remove(0);
+			}
+		}
+		
+	}
+	
+	
+	
 }

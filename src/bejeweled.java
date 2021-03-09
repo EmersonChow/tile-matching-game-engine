@@ -263,6 +263,7 @@ public class bejeweled {
 			{
 				board[currentRow][i] = board[currentRow - 1][i];
 				TileList.add(board[currentRow][i]);
+				System.out.println("" + currentRow + " " + i);
 				currentRow--;
 			}
 
@@ -270,7 +271,9 @@ public class bejeweled {
 			int randomColor = new Random().nextInt(PUBLIC_COLORS.length);
 			board[0][i] = new BejeweledTile(PUBLIC_COLORS[randomColor],0,i);
 			TileList.add(board[0][i]);
+			System.out.println("0 " + i);
 		}
+		System.out.println("------------------");
 		ArrayList<BejeweledTile> myTileList = new ArrayList<BejeweledTile>();
 		for(BejeweledTile tile:TileList)
 		{
@@ -386,10 +389,8 @@ public class bejeweled {
 		}
 	
 		while(!tileList.isEmpty()) {
-			for(int i = 0; i < tileList.size(); ++i) {
-				performLogic(tileList.get(0).row, (tileList.get(0).column));
-				tileList.remove(0);
-			}
+			performLogic(tileList.get(0).row, (tileList.get(0).column));
+			tileList.remove(0);
 		}
 
 	}

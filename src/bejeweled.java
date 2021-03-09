@@ -374,14 +374,14 @@ public class bejeweled {
 		
 		// check for horizontal match
 		if ( lmatch + rmatch + 1 >= 3) {
-			  tileList = fallHorizontal( row,col,lmatch,rmatch); 
+			  tileList.addAll(fallHorizontal( row,col,lmatch,rmatch)); 
 			
 		}
 		
 	
 		// check for vertical matching
 		else if (umatch + dmatch + 1 >= 3) {
-			tileList = fallVertical( row,col,umatch,dmatch); 
+			tileList.addAll(fallVertical( row,col,umatch,dmatch));
 
 		}
 	

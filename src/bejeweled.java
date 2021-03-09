@@ -3,8 +3,9 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
-
+import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
@@ -55,14 +56,18 @@ public class bejeweled {
 									revealAllColorsBoardCreation(tiles, board);
 								}
 								else if (spotsTouch(i,j)) {
-									BejeweledTile temp = board[i][j];
-									board[i][j] = board[firstSelectedRow][firstSelectedColumn];
-									board[firstSelectedRow][firstSelectedColumn] = temp;
+									//check if there is a match
+									switchJewels(firstSelectedRow, firstSelectedColumn, i, j);
+									if (checkMatch(firstSelectedRow, firstSelectedColumn, i, j))
+									{
+										performLogic(i,j);
+										performLogic(firstSelectedRow,firstSelectedColumn);
+									}
+									//if no match, then switch them back
+									else {
+										switchJewels(firstSelectedRow, firstSelectedColumn, i, j);
+									}
 
-									
-								// add tile match checking logic here
-									performLogic(i,j);
-									performLogic(firstSelectedRow,firstSelectedColumn);
 									firstSelectedRow = -1;
 									firstSelectedColumn= -1;
 									
@@ -247,9 +252,9 @@ public class bejeweled {
 	*/
 	{
 		
-		ArrayList<BejeweledTile> TileList = new ArrayList<BejeweledTile>();
+		Set<BejeweledTile> TileList = new HashSet<BejeweledTile>();
 		//loop through the furthest left to the furthest right
-		for (int i = column - left; i <= column + right; i++)
+		for (int i = column - left; i < column + right +1; ++i)
 		{
 			int currentRow = row;
 			
@@ -257,16 +262,22 @@ public class bejeweled {
 			while (currentRow > 0) 
 			{
 				board[currentRow][i] = board[currentRow - 1][i];
+				TileList.add(board[currentRow][i]);
 				currentRow--;
 			}
 
 
 			int randomColor = new Random().nextInt(PUBLIC_COLORS.length);
-			board[currentRow][i] = new BejeweledTile(PUBLIC_COLORS[randomColor],currentRow,i);
-			TileList.add(board[currentRow][i]);
+			board[0][i] = new BejeweledTile(PUBLIC_COLORS[randomColor],0,i);
+			TileList.add(board[0][i]);
+		}
+		ArrayList<BejeweledTile> myTileList = new ArrayList<BejeweledTile>();
+		for(BejeweledTile tile:TileList)
+		{
+			myTileList.add(tile);
 		}
 		
-		return TileList;
+		return myTileList;
 	  }
 
 	public ArrayList<BejeweledTile> fallVertical(int row, int column, int up, int down) 
@@ -275,13 +286,21 @@ public class bejeweled {
 		Eventually tiles-buttons- might be used instead of board-colors-, shifting will need to be done to that one instead. 
 	*/
 	{
-		ArrayList<BejeweledTile> TileList = new ArrayList<BejeweledTile>();
+		Set<BejeweledTile> TileList = new HashSet<BejeweledTile>();
+		
 		//loop through the highest up to the lowest down
-		for (int i = row - up - 1; i == 0; i--)
+
+		for (int i =0; i<up+down+1; i++)
 		{
-			board[row+down][column] = board[i][column];	
-			row--;		
+			if (row-up>0)
+			{
+				board[row+down][column] = board[row-up-1][column];
+				TileList.add(board[row+down][column]);
+				row--;
+			}
 		}
+
+
 		//loop through the top and creates colors
 		for (int i =0; i<up+down+1; i++)
 		{
@@ -289,8 +308,12 @@ public class bejeweled {
 			board[i][column] = new BejeweledTile(PUBLIC_COLORS[randomColor],i,column);
 			TileList.add(board[i][column]);
 		}
-		
-		return TileList;
+		ArrayList<BejeweledTile> myTileList = new ArrayList<BejeweledTile>();
+		for(BejeweledTile tile:TileList)
+		{
+			myTileList.add(tile);
+		}
+		return myTileList;
 
 	}
 
@@ -304,6 +327,40 @@ public class bejeweled {
 		board[secondSelectedRow][secondSelectedColumn] = first;
 	  }
 	
+	public boolean checkMatch(int firstSelectedRow, int firstSelectedColumn, int secondSelectedRow,  int secondSelectedColumn)
+	//returns True if there is a match
+	{
+		//check firstTile
+		int rmatch = rightMatch(firstSelectedRow,firstSelectedColumn);
+		int lmatch = leftMatch(firstSelectedRow,firstSelectedColumn);
+		int umatch = upMatch(firstSelectedRow,firstSelectedColumn);
+		int dmatch = downMatch(firstSelectedRow,firstSelectedColumn); 
+		if (lmatch + rmatch +1 >=3)
+		{
+			return true;
+		}
+		else if (umatch + dmatch +1>=3)
+		{
+			return true;
+		}
+
+		//check secondTile
+		int rmatch2 = rightMatch(secondSelectedRow,secondSelectedColumn);
+		int lmatch2 = leftMatch(secondSelectedRow,secondSelectedColumn);
+		int umatch2 = upMatch(secondSelectedRow,secondSelectedColumn);
+		int dmatch2 = downMatch(secondSelectedRow,secondSelectedColumn); 
+		if (lmatch2 + rmatch2 +1 >=3)
+		{
+			return true;
+		}
+		else if (umatch2 + dmatch2 +1>=3)
+		{
+			return true;
+		}
+		return false;
+	}
+
+
 	public void performLogic(int row, int col) {
 		
 		// call checking functions
@@ -330,13 +387,18 @@ public class bejeweled {
 	
 		while(!tileList.isEmpty()) {
 			for(int i = 0; i < tileList.size(); ++i) {
-				performLogic(tileList.get(i).row, (tileList.get(i).column));
+				performLogic(tileList.get(0).row, (tileList.get(0).column));
 				tileList.remove(0);
 			}
 		}
-		
+
 	}
 	
+	public void checkEntireBoard()
+	// Loop through the entire board and clear things.
+	{
+		;
+	}
 	
 	
 }

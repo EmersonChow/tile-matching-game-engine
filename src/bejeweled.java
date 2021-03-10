@@ -62,12 +62,14 @@ public class bejeweled {
 									{
 										performLogic(i,j);
 										performLogic(firstSelectedRow,firstSelectedColumn);
+										checkEntireBoard();
 									}
 									//if no match, then switch them back
 									else {
 										switchJewels(firstSelectedRow, firstSelectedColumn, i, j);
 									}
 
+									
 									firstSelectedRow = -1;
 									firstSelectedColumn= -1;
 									
@@ -252,6 +254,7 @@ public class bejeweled {
 	*/
 	{
 		
+	
 		Set<BejeweledTile> TileList = new HashSet<BejeweledTile>();
 		//loop through the furthest left to the furthest right
 		for (int i = column - left; i < column + right +1; ++i)
@@ -263,7 +266,7 @@ public class bejeweled {
 			{
 				board[currentRow][i] = board[currentRow - 1][i];
 				TileList.add(board[currentRow][i]);
-				System.out.println("" + currentRow + " " + i);
+	
 				currentRow--;
 			}
 
@@ -271,9 +274,8 @@ public class bejeweled {
 			int randomColor = new Random().nextInt(PUBLIC_COLORS.length);
 			board[0][i] = new BejeweledTile(PUBLIC_COLORS[randomColor],0,i);
 			TileList.add(board[0][i]);
-			System.out.println("0 " + i);
 		}
-		System.out.println("------------------");
+
 		ArrayList<BejeweledTile> myTileList = new ArrayList<BejeweledTile>();
 		for(BejeweledTile tile:TileList)
 		{
@@ -311,6 +313,7 @@ public class bejeweled {
 			board[i][column] = new BejeweledTile(PUBLIC_COLORS[randomColor],i,column);
 			TileList.add(board[i][column]);
 		}
+		
 		ArrayList<BejeweledTile> myTileList = new ArrayList<BejeweledTile>();
 		for(BejeweledTile tile:TileList)
 		{
@@ -364,7 +367,7 @@ public class bejeweled {
 	}
 
 
-	public void performLogic(int row, int col) {
+	public boolean performLogic(int row, int col) {
 		
 		// call checking functions
 		int rmatch = rightMatch(row,col);
@@ -378,27 +381,33 @@ public class bejeweled {
 		// check for horizontal match
 		if ( lmatch + rmatch + 1 >= 3) {
 			  tileList.addAll(fallHorizontal( row,col,lmatch,rmatch)); 
-			
+			return true;
 		}
 		
 	
 		// check for vertical matching
 		else if (umatch + dmatch + 1 >= 3) {
 			tileList.addAll(fallVertical( row,col,umatch,dmatch));
-
+			return true;
 		}
-	
-		while(!tileList.isEmpty()) {
-			performLogic(tileList.get(0).row, (tileList.get(0).column));
-			tileList.remove(0);
-		}
+		
+		return false;
 
 	}
-	
+
 	public void checkEntireBoard()
-	// Loop through the entire board and clear things.
+	// Loop through the entire board and clear matches.
 	{
-		;
+		for (int i = 0; i < TILE_HEIGHT; ++i) {
+			
+			for (int j = 0; j < TILE_WIDTH; ++j) {
+				if (performLogic(i,j)) {
+					checkEntireBoard();
+				}
+
+			}		
+			
+		}
 	}
 	
 	

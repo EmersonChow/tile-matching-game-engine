@@ -2,12 +2,14 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-import javax.swing.JButton;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
+import java.awt.*;
+import java.util.Collections;
 
 //With inspiration from https://github.com/BillyBarbaro/Bejeweled/blob/master/Jewels.java
 
@@ -22,19 +24,57 @@ public class bejeweled {
     
 	private int firstSelectedRow = -1;
 	private int firstSelectedColumn = -1;
+	
+	BejeweledScoreboard scoreboard;
+	int timeLeft = 60000; // 60 seconds
+	boolean bothRoundsPlayed = false; // Check if both players got a turn
+	
+	Player p1;
+	Player p2;
+	
+	Player currentPlayer;
+	
+    Timer gameTimer;
+	
 
 	public bejeweled() {
 		// TODO Auto-generated constructor stub
 		board = bejeweledBoardMaker(TILE_HEIGHT, TILE_WIDTH);
 		env = new TMGEv2(TILE_WIDTH, TILE_HEIGHT, "Bejeweled Game");
+		p1 = new Player();
+		p2 = new Player();
         tiles = env.getTilesInterface();
 		for (int i = 0 ; i < TILE_HEIGHT ; i++) {
 			for (int j = 0; j < TILE_WIDTH; j++) {
 				tiles[i][j].addActionListener(new ListenerForClick());
 			}
 		}
+		scoreboard = new BejeweledScoreboard(env.getScorePanel(), p1, p2, timeLeft);
 		revealAllColorsBoardCreation(tiles, board);
-        //SwingUtilities.invokeLater(() -> new tmge(TILE_HEIGHT, TILE_WIDTH, board));
+		currentPlayer = p1;
+		
+		gameTimer = new Timer(100, new ActionListener() {
+
+	        public void actionPerformed(ActionEvent e) {
+	            timeLeft -= 100;
+	            scoreboard.updateTime(timeLeft);
+	            if(timeLeft<=0 && !bothRoundsPlayed)
+	            {
+	                gameTimer.stop();
+	                switchPlayers();
+	                timeLeft = 60000;
+	                bothRoundsPlayed = true;
+	                gameTimer.start();
+	            }
+	            else if(timeLeft<=0 && bothRoundsPlayed) {
+	            	gameTimer.stop();
+	            	checkWin();
+	            }
+	        }
+	    });
+		
+		gameTimer.start();
+		
 	}
 	
 	private class ListenerForClick implements ActionListener {
@@ -74,7 +114,6 @@ public class bejeweled {
 									firstSelectedColumn= -1;
 									
 									revealAllColorsBoardCreation(tiles, board);
-									
 								
 								}
 							}
@@ -150,11 +189,8 @@ public class bejeweled {
     	    }
     	}
 		
-		// for the very last tile
-		while(j < TILE_HEIGHT) {
 			tilebuttons[i][j].setBackground(board[i][j].getColor());
 			j++;
-		}
 	}
 
 	public boolean spotsTouch(int secondSelectedRow, int secondSelectedColumn) 
@@ -381,6 +417,8 @@ public class bejeweled {
 		// check for horizontal match
 		if ( lmatch + rmatch + 1 >= 3) {
 			  tileList.addAll(fallHorizontal( row,col,lmatch,rmatch)); 
+			  currentPlayer.addPoint();
+			  scoreboard.updateScores();
 			return true;
 		}
 		
@@ -388,6 +426,8 @@ public class bejeweled {
 		// check for vertical matching
 		else if (umatch + dmatch + 1 >= 3) {
 			tileList.addAll(fallVertical( row,col,umatch,dmatch));
+			currentPlayer.addPoint();
+			scoreboard.updateScores();
 			return true;
 		}
 		
@@ -407,6 +447,32 @@ public class bejeweled {
 
 			}		
 			
+		}
+	}
+	
+	
+	// These two functions are similar to Memory. Maybe they can be abstracted or whatever its called
+	public void switchPlayers() {
+		if(currentPlayer == p1) {
+			currentPlayer = p2;
+		}
+		else {
+			currentPlayer = p1;
+		}
+		scoreboard.rotateTurn(currentPlayer);
+	}
+
+	public void checkWin() {
+		if(p1.getPlayerScore() > p2.getPlayerScore()) {
+			scoreboard.declareWinner(p1);
+		}
+		// Player 2 win
+		else if(p1.getPlayerScore() < p2.getPlayerScore()) {
+			scoreboard.declareWinner(p2);
+		}
+		// Tied score
+		else {
+			scoreboard.declareWinner();
 		}
 	}
 	

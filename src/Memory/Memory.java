@@ -15,21 +15,21 @@ public class Memory {
     int TILE_HEIGHT;
     int TILE_WIDTH;
     JButton tiles[][];
-    Tile[][] board;
+    MemoryTile[][] board;
     TMGE env;
 
 	Component firstTileButton;
 	Component secondTileButton;
 
-	Tile firstTile;
-	Tile secondTile;
+	MemoryTile firstTile;
+	MemoryTile secondTile;
 
 	MemoryScoreboard scoreboard;
 
 	Player p1;
 	Player p2;
 
-	ArrayList<Tile> matched;
+	ArrayList<MemoryTile> matched;
 	Player currentPlayer;
 
 
@@ -43,7 +43,7 @@ public class Memory {
 	public Memory(int WIDTH, int HEIGHT){
 		TILE_HEIGHT = HEIGHT;
 		TILE_WIDTH = WIDTH;
-		matched = new ArrayList<Tile>();
+		matched = new ArrayList<MemoryTile>();
 		p1 = new Player();
 		p2 = new Player();
 		currentPlayer = p1;
@@ -186,8 +186,8 @@ public class Memory {
 		}
 	}
 
-    private Tile[][] boardRandomizer(int x, int y) {
-    	Tile[][] board = new Tile[x][y];
+    private MemoryTile[][] boardRandomizer(int x, int y) {
+    	MemoryTile[][] board = new MemoryTile[x][y];
     	ArrayList<Color> colors = new ArrayList<Color>();
 
     	for(int i = 0; i < ((x*y)/2); i++) {
@@ -199,7 +199,7 @@ public class Memory {
 
     	int i = 0, j = 0;
     	for (final Color colo : colors) {
-    	    board[i][j] = new Tile(colo);
+    	    board[i][j] = new MemoryTile(colo, false);
     	    if (++j == x) {
     	        j = 0;
     	        ++i;

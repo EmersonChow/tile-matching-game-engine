@@ -2,23 +2,20 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import javax.swing.*;
-import java.awt.*;
-import java.util.Collections;
 
 //With inspiration from https://github.com/BillyBarbaro/Bejeweled/blob/master/Jewels.java
 
-public class bejeweled {
+public class Bejeweled {
     int TILE_HEIGHT = 8;
     int TILE_WIDTH = 8;
     JButton tiles[][];
     BejeweledTile[][] board;
-    TMGEv2 env;
+    TMGE env;
 
     Color[] PUBLIC_COLORS = new Color[] {Color.decode("#FFB5C7"), Color.decode("#B1ACDF"), Color.decode("#afcfde"), Color.decode("#C9DE9E"),Color.decode("#FAE2BE")};
     
@@ -37,10 +34,10 @@ public class bejeweled {
     Timer gameTimer;
 	
 
-	public bejeweled() {
+	public Bejeweled() {
 		// TODO Auto-generated constructor stub
 		board = bejeweledBoardMaker(TILE_HEIGHT, TILE_WIDTH);
-		env = new TMGEv2(TILE_WIDTH, TILE_HEIGHT, "Bejeweled Game");
+		env = new TMGE(TILE_WIDTH, TILE_HEIGHT, "Bejeweled Game");
 		p1 = new Player();
 		p2 = new Player();
         tiles = env.getTilesInterface();

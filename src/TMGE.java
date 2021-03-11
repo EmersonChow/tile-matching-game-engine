@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class TMGEv2 {
+public class TMGE {
     JFrame mainFrame;
     JPanel scorePanel;
     JPanel tilePanel;
@@ -17,7 +17,7 @@ public class TMGEv2 {
         return scorePanel;
     }
 
-    public TMGEv2 (int WIDTH, int HEIGHT, String TITLE) {
+    public TMGE (int WIDTH, int HEIGHT, String TITLE) {
         TILE_HEIGHT = HEIGHT;
         TILE_WIDTH = WIDTH;
 

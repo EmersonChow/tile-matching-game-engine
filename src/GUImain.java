@@ -75,9 +75,9 @@ public class GUImain implements ActionListener{
 		}
 		if(e.getSource() == bejeweled)
 		{
-			System.out.println("bejeweled");
+			System.out.println("Bejeweled");
 			frame.setVisible(false);
-//			SwingUtilities.invokeLater(() -> new bejeweled());
+			SwingUtilities.invokeLater(() -> new Bejeweled());
 		}
 	}
 
@@ -86,7 +86,7 @@ public class GUImain implements ActionListener{
 
 //		@SuppressWarnings("resource")
 //		Scanner cal = new Scanner(System.in); // Create a Scanner object
-//		// System.out.println("Choose a game: memory or bejeweled");
+//		// System.out.println("Choose a game: memory or Bejeweled");
 //
 //		if (cal.next().equals("memory")) {
 //			// System.out.println("Please specify the board size (i.e. 4 for 4x4)");

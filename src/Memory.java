@@ -10,7 +10,7 @@ public class Memory {
     int TILE_WIDTH;
     JButton tiles[][];
     Tile[][] board;
-    TMGEv2 env;
+    TMGE env;
 
 	Component firstTileButton;
 	Component secondTileButton;
@@ -41,7 +41,7 @@ public class Memory {
 		p1 = new Player();
 		p2 = new Player();
 		board = boardRandomizer(HEIGHT, WIDTH);
-		env = new TMGEv2(WIDTH, HEIGHT, "Memory Game");
+		env = new TMGE(WIDTH, HEIGHT, "Memory Game");
 
 		tiles = env.getTilesInterface();
 		for (int i = 0 ; i < HEIGHT ; i++) {

@@ -2,7 +2,7 @@ package TMGE;
 
 import java.awt.Color;
 
-abstract class Tile {
+public abstract class Tile {
 	Color color;
 	
 	public Tile(Color c){

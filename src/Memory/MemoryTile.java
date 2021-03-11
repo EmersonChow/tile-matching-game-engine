@@ -1,6 +1,8 @@
 package Memory;
 import java.awt.Color;
 
+import TMGE.Tile;
+
 class MemoryTile extends Tile {
 	
 	boolean active;

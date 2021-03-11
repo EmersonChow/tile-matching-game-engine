@@ -1,3 +1,4 @@
+package Memory;
 import java.awt.Color;
 
 class MemoryTile extends Tile {

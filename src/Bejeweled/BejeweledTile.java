@@ -1,3 +1,7 @@
+package Bejeweled;
+
+import TMGE.Tile;
+
 import java.awt.Color;
 
 class BejeweledTile extends Tile {

@@ -1,3 +1,9 @@
+package Bejeweled;
+
+import TMGE.Player;
+import TMGE.TMGE;
+import TMGE.Tile;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -37,7 +43,7 @@ public class Bejeweled {
 	public Bejeweled() {
 		// TODO Auto-generated constructor stub
 		board = bejeweledBoardMaker(TILE_HEIGHT, TILE_WIDTH);
-		env = new TMGE(TILE_WIDTH, TILE_HEIGHT, "Bejeweled Game");
+		env = new TMGE(TILE_WIDTH, TILE_HEIGHT, "Bejeweled.Bejeweled Game");
 		p1 = new Player();
 		p2 = new Player();
         tiles = env.getTilesInterface();
@@ -452,7 +458,7 @@ public class Bejeweled {
 		if(p1.getPlayerScore() > p2.getPlayerScore()) {
 			scoreboard.declareWinner(p1);
 		}
-		// Player 2 win
+		// TMGE.Player 2 win
 		else if(p1.getPlayerScore() < p2.getPlayerScore()) {
 			scoreboard.declareWinner(p2);
 		}

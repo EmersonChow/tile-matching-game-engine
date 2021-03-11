@@ -1,6 +1,10 @@
+package TMGE;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import Bejeweled.*;
+import Memory.*;
 
 import javax.swing.*;
 
@@ -86,7 +90,7 @@ public class GUImain implements ActionListener{
 
 //		@SuppressWarnings("resource")
 //		Scanner cal = new Scanner(System.in); // Create a Scanner object
-//		// System.out.println("Choose a game: memory or Bejeweled");
+//		// System.out.println("Choose a game: memory or Bejeweled.Bejeweled");
 //
 //		if (cal.next().equals("memory")) {
 //			// System.out.println("Please specify the board size (i.e. 4 for 4x4)");

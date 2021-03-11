@@ -1,3 +1,5 @@
+package TMGE;
+
 import javax.swing.*;
 import java.awt.*;
 

@@ -1,10 +1,14 @@
+package Bejeweled;
+
+import TMGE.*;
+
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class BejeweledScoreboard extends Scoreboard{
+public class BejeweledScoreboard extends Scoreboard {
 	JLabel lblTimer;
     public void updateTime(int timeLeft) {
     	SimpleDateFormat dateFormat= new SimpleDateFormat("mm:ss");
@@ -18,12 +22,12 @@ public class BejeweledScoreboard extends Scoreboard{
         SimpleDateFormat dateFormat= new SimpleDateFormat("mm:ss");
         lblTimer = new JLabel("Time Limit: " + dateFormat.format(timeLeft));
         
-        gameStatusLabel = new JLabel("Current player: Player 1");
+        gameStatusLabel = new JLabel("Current player: TMGE.Player 1");
         JLabel random = new JLabel("   ");
-        p1Label = new JLabel("Player 1 score: " + p1.getPlayerScore());
+        p1Label = new JLabel("TMGE.Player 1 score: " + p1.getPlayerScore());
         p1Label.setOpaque(true);
         p1Label.setBackground(Color.decode("#56CBF9"));
-        p2Label = new JLabel("Player 2 score: " + p2.getPlayerScore());
+        p2Label = new JLabel("TMGE.Player 2 score: " + p2.getPlayerScore());
         p2Label.setOpaque(true);
         
        

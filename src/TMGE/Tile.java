@@ -1,10 +1,12 @@
+package TMGE;
+
 import java.awt.Color;
 
 public class Tile {
 	Color color;
 	boolean active = false;
 	
-	Tile(Color c){
+	public Tile(Color c){
 		color = c;
 	}
 	

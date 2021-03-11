@@ -1,7 +1,9 @@
+package TMGE;
+
 import javax.swing.*;
 import java.awt.*;
 
-abstract class Scoreboard {
+abstract public class Scoreboard {
     JLabel p1Label;
     JLabel p2Label;
     JLabel gameStatusLabel;
@@ -10,28 +12,28 @@ abstract class Scoreboard {
     Player p2;
 
     public void updateScores() {
-        p1Label.setText("Player 1 score: " + p1.getPlayerScore());
-        p2Label.setText("Player 2 score: " + p2.getPlayerScore());
+        p1Label.setText("TMGE.Player 1 score: " + p1.getPlayerScore());
+        p2Label.setText("TMGE.Player 2 score: " + p2.getPlayerScore());
     }
     public void rotateTurn(Player current) {
         if (current == p1) {
             p1Label.setBackground(Color.decode("#fc0303"));
-            gameStatusLabel.setText("Current player: Player 1");
+            gameStatusLabel.setText("Current player: TMGE.Player 1");
             p2Label.setBackground(Color.WHITE);
         } else {
             p2Label.setBackground(Color.decode("#fc0303"));
-            gameStatusLabel.setText("Current player: Player 2");
+            gameStatusLabel.setText("Current player: TMGE.Player 2");
             p1Label.setBackground(Color.WHITE);
         }
     };
 
     public void declareWinner(Player winner) {
         if (winner == p1) {
-            gameStatusLabel.setText("Game over! Player 1 wins!");
+            gameStatusLabel.setText("Game over! TMGE.Player 1 wins!");
             p1Label.setBackground(Color.decode("#56CBF9"));
             p2Label.setBackground(Color.WHITE);
         } else {
-            gameStatusLabel.setText("Game over! Player 2 wins!");
+            gameStatusLabel.setText("Game over! TMGE.Player 2 wins!");
             p1Label.setBackground(Color.WHITE);
             p2Label.setBackground(Color.decode("#fc0303"));
         }

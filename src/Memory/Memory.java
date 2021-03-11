@@ -1,3 +1,9 @@
+package Memory;
+
+import TMGE.Player;
+import TMGE.TMGE;
+import TMGE.Tile;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -42,7 +48,7 @@ public class Memory {
 		p2 = new Player();
 		currentPlayer = p1;
 		board = boardRandomizer(HEIGHT, WIDTH);
-		env = new TMGE(WIDTH, HEIGHT, "Memory Game");
+		env = new TMGE(WIDTH, HEIGHT, "Memory.Memory Game");
 
 		tiles = env.getTilesInterface();
 		for (int i = 0 ; i < HEIGHT ; i++) {
@@ -165,11 +171,11 @@ public class Memory {
 	public void checkWin() {
 		int boardsize = TILE_HEIGHT*TILE_WIDTH;
 		if(matched.size() >= boardsize) {
-			// Player 1 win
+			// TMGE.Player 1 win
 			if(p1.getPlayerScore() > p2.getPlayerScore()) {
 				scoreboard.declareWinner(p1);
 			}
-			// Player 2 win
+			// TMGE.Player 2 win
 			else if(p1.getPlayerScore() < p2.getPlayerScore()) {
 				scoreboard.declareWinner(p2);
 			}

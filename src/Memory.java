@@ -40,6 +40,7 @@ public class Memory {
 		matched = new ArrayList<Tile>();
 		p1 = new Player();
 		p2 = new Player();
+		currentPlayer = p1;
 		board = boardRandomizer(HEIGHT, WIDTH);
 		env = new TMGE(WIDTH, HEIGHT, "Memory Game");
 
@@ -120,7 +121,8 @@ public class Memory {
 			    			secondTileButton.setBackground(Color.GRAY);
 			    			secondTile.hide();
 			    			
-			    			switchPlayers();
+			    			currentPlayer = scoreboard.switchPlayers(currentPlayer);
+			    			scoreboard.rotateTurn(currentPlayer);
 			    		}
 			    		
 			    		// Reset selected tiles
@@ -158,17 +160,6 @@ public class Memory {
             	}
             }
 		}
-	}
-	
-
-	public void switchPlayers() {
-		if(currentPlayer == p1) {
-			currentPlayer = p2;
-		}
-		else {
-			currentPlayer = p1;
-		}
-		scoreboard.rotateTurn(currentPlayer);
 	}
 
 	public void checkWin() {

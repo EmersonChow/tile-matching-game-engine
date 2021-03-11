@@ -58,7 +58,8 @@ public class Bejeweled {
 	            if(timeLeft<=0 && !bothRoundsPlayed)
 	            {
 	                gameTimer.stop();
-	                switchPlayers();
+	                currentPlayer = scoreboard.switchPlayers(currentPlayer);
+	                scoreboard.rotateTurn(currentPlayer);
 	                timeLeft = 60000;
 	                bothRoundsPlayed = true;
 	                gameTimer.start();
@@ -447,18 +448,6 @@ public class Bejeweled {
 		}
 	}
 	
-	
-	// These two functions are similar to Memory. Maybe they can be abstracted or whatever its called
-	public void switchPlayers() {
-		if(currentPlayer == p1) {
-			currentPlayer = p2;
-		}
-		else {
-			currentPlayer = p1;
-		}
-		scoreboard.rotateTurn(currentPlayer);
-	}
-
 	public void checkWin() {
 		if(p1.getPlayerScore() > p2.getPlayerScore()) {
 			scoreboard.declareWinner(p1);

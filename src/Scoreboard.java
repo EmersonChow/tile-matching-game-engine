@@ -42,4 +42,16 @@ abstract class Scoreboard {
         p1Label.setBackground(Color.WHITE);
         p2Label.setBackground(Color.WHITE);
     }
+    
+	
+	public Player switchPlayers(Player currentPlayer) {
+		if(currentPlayer == p1) {
+			return p2;
+		}
+		else {
+			rotateTurn(currentPlayer);
+			return p1;
+		}
+		
+	}
 }

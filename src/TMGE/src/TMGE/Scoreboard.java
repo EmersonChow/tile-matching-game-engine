@@ -4,12 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 
 abstract public class Scoreboard {
-    JLabel p1Label;
-    JLabel p2Label;
-    JLabel gameStatusLabel;
+    protected JLabel p1Label;
+    protected JLabel p2Label;
+    protected JLabel gameStatusLabel;
 
-    Player p1;
-    Player p2;
+    protected Player p1;
+    protected Player p2;
 
     public void updateScores() {
         p1Label.setText("TMGE.Player 1 score: " + p1.getPlayerScore());

@@ -6,8 +6,10 @@ import TMGE.Scoreboard;
 import javax.swing.*;
 import java.awt.*;
 
+
 public class MemoryScoreboard extends Scoreboard {
-    public MemoryScoreboard(JPanel scorePanel, Player player1, Player player2) {
+
+	public MemoryScoreboard(JPanel scorePanel, Player player1, Player player2) {
         p1 = player1;
         p2 = player2;
 

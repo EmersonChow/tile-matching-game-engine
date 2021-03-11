@@ -1,4 +1,4 @@
-package TMGE;
+package GUI;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

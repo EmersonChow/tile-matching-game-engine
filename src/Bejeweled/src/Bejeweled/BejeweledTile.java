@@ -4,7 +4,7 @@ import TMGE.Tile;
 
 import java.awt.Color;
 
-class BejeweledTile extends Tile {
+public class BejeweledTile extends Tile {
 	
 	int row;
 	int column;

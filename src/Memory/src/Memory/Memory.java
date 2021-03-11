@@ -2,7 +2,6 @@ package Memory;
 
 import TMGE.Player;
 import TMGE.TMGE;
-import TMGE.Tile;
 
 import javax.swing.*;
 import java.awt.*;

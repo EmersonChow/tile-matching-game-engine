@@ -22,12 +22,12 @@ public class BejeweledScoreboard extends Scoreboard {
         SimpleDateFormat dateFormat= new SimpleDateFormat("mm:ss");
         lblTimer = new JLabel("Time Limit: " + dateFormat.format(timeLeft));
         
-        gameStatusLabel = new JLabel("Current player: TMGE.Player 1");
+        gameStatusLabel = new JLabel("Current player: " + p1.getName());
         JLabel random = new JLabel("   ");
-        p1Label = new JLabel("TMGE.Player 1 score: " + p1.getPlayerScore());
+        p1Label = new JLabel(p1.getName() + " score: " + p1.getPlayerScore());
         p1Label.setOpaque(true);
         p1Label.setBackground(Color.decode("#56CBF9"));
-        p2Label = new JLabel("TMGE.Player 2 score: " + p2.getPlayerScore());
+        p2Label = new JLabel(p2.getName() + " score: " + p2.getPlayerScore());
         p2Label.setOpaque(true);
         
        
@@ -37,5 +37,4 @@ public class BejeweledScoreboard extends Scoreboard {
         scorePanel.add(p1Label);
         scorePanel.add(p2Label);
     }
-
 }

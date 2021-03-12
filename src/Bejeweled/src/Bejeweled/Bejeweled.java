@@ -40,12 +40,12 @@ public class Bejeweled {
     Timer gameTimer;
 	
 
-	public Bejeweled() {
+	public Bejeweled(String pl1, String pl2) {
 		// TODO Auto-generated constructor stub
 		board = bejeweledBoardMaker(TILE_HEIGHT, TILE_WIDTH);
-		env = new TMGE(TILE_WIDTH, TILE_HEIGHT, "Bejeweled.Bejeweled Game");
-		p1 = new Player();
-		p2 = new Player();
+		env = TMGE.getInstance(TILE_WIDTH, TILE_HEIGHT, "Bejeweled Game");
+		p1 = new Player(pl1);
+		p2 = new Player(pl2);
         tiles = env.getTilesInterface();
 		for (int i = 0 ; i < TILE_HEIGHT ; i++) {
 			for (int j = 0; j < TILE_WIDTH; j++) {

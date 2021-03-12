@@ -39,15 +39,15 @@ public class Memory {
     		Color.decode("#ff4500"), Color.decode("#b03060"), Color.decode("#7f007f"), Color.decode("#32cd32"), Color.decode("#00008b"), Color.decode("#4682b4"),
     		Color.decode("#556b2f"), Color.decode("#7fffd4"), Color.decode("#cd5c5c")};
 
-	public Memory(int WIDTH, int HEIGHT){
+	public Memory(int WIDTH, int HEIGHT, String pl1, String pl2){
 		TILE_HEIGHT = HEIGHT;
 		TILE_WIDTH = WIDTH;
 		matched = new ArrayList<MemoryTile>();
-		p1 = new Player();
-		p2 = new Player();
+		p1 = new Player(pl1);
+		p2 = new Player(pl2);
 		currentPlayer = p1;
 		board = boardRandomizer(HEIGHT, WIDTH);
-		env = new TMGE(WIDTH, HEIGHT, "Memory.Memory Game");
+		env = TMGE.getInstance(WIDTH, HEIGHT, "Memory Game");
 
 		tiles = env.getTilesInterface();
 		for (int i = 0 ; i < HEIGHT ; i++) {

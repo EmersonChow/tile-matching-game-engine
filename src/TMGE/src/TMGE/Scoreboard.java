@@ -12,28 +12,28 @@ abstract public class Scoreboard {
     protected Player p2;
 
     public void updateScores() {
-        p1Label.setText("TMGE.Player 1 score: " + p1.getPlayerScore());
-        p2Label.setText("TMGE.Player 2 score: " + p2.getPlayerScore());
+        p1Label.setText(p1.getName() + " score: " + p1.getPlayerScore());
+        p2Label.setText(p2.getName() + " score: " + p2.getPlayerScore());
     }
     public void rotateTurn(Player current) {
         if (current == p1) {
             p1Label.setBackground(Color.decode("#fc0303"));
-            gameStatusLabel.setText("Current player: TMGE.Player 1");
+            gameStatusLabel.setText("Current player: " + p1.getName());
             p2Label.setBackground(Color.WHITE);
         } else {
             p2Label.setBackground(Color.decode("#fc0303"));
-            gameStatusLabel.setText("Current player: TMGE.Player 2");
+            gameStatusLabel.setText("Current player: " + p2.getName());
             p1Label.setBackground(Color.WHITE);
         }
     };
 
     public void declareWinner(Player winner) {
         if (winner == p1) {
-            gameStatusLabel.setText("Game over! TMGE.Player 1 wins!");
+            gameStatusLabel.setText("Game over! " + p1.getName() + " wins!");
             p1Label.setBackground(Color.decode("#56CBF9"));
             p2Label.setBackground(Color.WHITE);
         } else {
-            gameStatusLabel.setText("Game over! TMGE.Player 2 wins!");
+            gameStatusLabel.setText("Game over! " + p2.getName() + " wins!");
             p1Label.setBackground(Color.WHITE);
             p2Label.setBackground(Color.decode("#fc0303"));
         }

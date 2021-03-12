@@ -1,3 +1,8 @@
+package Memory;
+
+import TMGE.Player;
+import TMGE.TMGE;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,21 +14,21 @@ public class Memory {
     int TILE_HEIGHT;
     int TILE_WIDTH;
     JButton tiles[][];
-    Tile[][] board;
-    TMGEv2 env;
+    MemoryTile[][] board;
+    TMGE env;
 
 	Component firstTileButton;
 	Component secondTileButton;
 
-	Tile firstTile;
-	Tile secondTile;
+	MemoryTile firstTile;
+	MemoryTile secondTile;
 
 	MemoryScoreboard scoreboard;
 
 	Player p1;
 	Player p2;
 
-	ArrayList<Tile> matched;
+	ArrayList<MemoryTile> matched;
 	Player currentPlayer;
 
 
@@ -34,14 +39,15 @@ public class Memory {
     		Color.decode("#ff4500"), Color.decode("#b03060"), Color.decode("#7f007f"), Color.decode("#32cd32"), Color.decode("#00008b"), Color.decode("#4682b4"),
     		Color.decode("#556b2f"), Color.decode("#7fffd4"), Color.decode("#cd5c5c")};
 
-	public Memory(int WIDTH, int HEIGHT){
+	public Memory(int WIDTH, int HEIGHT, String pl1, String pl2){
 		TILE_HEIGHT = HEIGHT;
 		TILE_WIDTH = WIDTH;
-		matched = new ArrayList<Tile>();
-		p1 = new Player();
-		p2 = new Player();
+		matched = new ArrayList<MemoryTile>();
+		p1 = new Player(pl1);
+		p2 = new Player(pl2);
+		currentPlayer = p1;
 		board = boardRandomizer(HEIGHT, WIDTH);
-		env = new TMGEv2(WIDTH, HEIGHT, "Memory Game");
+		env = TMGE.getInstance(WIDTH, HEIGHT, "Memory Game");
 
 		tiles = env.getTilesInterface();
 		for (int i = 0 ; i < HEIGHT ; i++) {
@@ -120,7 +126,8 @@ public class Memory {
 			    			secondTileButton.setBackground(Color.GRAY);
 			    			secondTile.hide();
 			    			
-			    			switchPlayers();
+			    			currentPlayer = scoreboard.switchPlayers(currentPlayer);
+			    			scoreboard.rotateTurn(currentPlayer);
 			    		}
 			    		
 			    		// Reset selected tiles
@@ -159,26 +166,15 @@ public class Memory {
             }
 		}
 	}
-	
-
-	public void switchPlayers() {
-		if(currentPlayer == p1) {
-			currentPlayer = p2;
-		}
-		else {
-			currentPlayer = p1;
-		}
-		scoreboard.rotateTurn(currentPlayer);
-	}
 
 	public void checkWin() {
 		int boardsize = TILE_HEIGHT*TILE_WIDTH;
 		if(matched.size() >= boardsize) {
-			// Player 1 win
+			// TMGE.Player 1 win
 			if(p1.getPlayerScore() > p2.getPlayerScore()) {
 				scoreboard.declareWinner(p1);
 			}
-			// Player 2 win
+			// TMGE.Player 2 win
 			else if(p1.getPlayerScore() < p2.getPlayerScore()) {
 				scoreboard.declareWinner(p2);
 			}
@@ -189,8 +185,8 @@ public class Memory {
 		}
 	}
 
-    private Tile[][] boardRandomizer(int x, int y) {
-    	Tile[][] board = new Tile[x][y];
+    private MemoryTile[][] boardRandomizer(int x, int y) {
+    	MemoryTile[][] board = new MemoryTile[x][y];
     	ArrayList<Color> colors = new ArrayList<Color>();
 
     	for(int i = 0; i < ((x*y)/2); i++) {
@@ -202,7 +198,7 @@ public class Memory {
 
     	int i = 0, j = 0;
     	for (final Color colo : colors) {
-    	    board[i][j] = new Tile(colo);
+    	    board[i][j] = new MemoryTile(colo, false);
     	    if (++j == x) {
     	        j = 0;
     	        ++i;

@@ -1,11 +1,15 @@
+package Memory;
 import java.awt.Color;
 
-public class Tile {
-	Color color;
-	boolean active = false;
+import TMGE.Tile;
+
+class MemoryTile extends Tile {
 	
-	Tile(Color c){
-		color = c;
+	boolean active;
+	
+	MemoryTile(Color c, boolean act) {
+		super(c);
+		active = act;
 	}
 	
 	public boolean isActive() {
@@ -19,9 +23,5 @@ public class Tile {
 	public void hide() {
 		active = false;
 	}
-	
-	public Color getColor() {
-		return color;
-	}
-	
+
 }
